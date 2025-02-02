@@ -16,15 +16,15 @@ export default function SignupFormDemo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const password = e.target.password.value;
     const reenterPassword = e.target.reenterpassword.value;
-  
+
     if (password !== reenterPassword) {
       toast.error("Passwords do not match", { richColors: true });
       return;
     }
-  
+
     const formData = {
       firstName: e.target.firstname.value,
       lastName: e.target.lastname.value,
@@ -142,11 +142,11 @@ export default function SignupFormDemo() {
 
         <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
         <p className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
-                    Already have an account?{" "}
-                    <Link href="/signin" className="text-blue-500 hover:underline">
-                        Go to signin
-                    </Link>
-                </p>
+          Already have an account?{" "}
+          <Link href="/signin" className="text-blue-500 hover:underline">
+            Go to signin
+          </Link>
+        </p>
       </form>
     </div>
   );
