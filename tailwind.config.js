@@ -10,7 +10,14 @@ const {
 	],
 	darkMode: "class",
 	theme: {
-		extend: {	
+		extend: {
+			colors: {
+				chrome: "#ff5722",
+				safari: "#4CAF50",
+				firefox: "#2196F3",
+				edge: "#9C27B0",
+				other: "#FFC107",
+			  },	
 			boxShadow: {
 				input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
 			  },
