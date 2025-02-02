@@ -5,17 +5,10 @@ import React, { useState, useEffect } from "react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from "@/components/ui/carousel";
-
+import { useRouter } from "next/navigation";
 export default function LandingPage() {
   const [darkMode, setDarkMode] = useState(false);
-
+  const router = useRouter();
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
@@ -40,7 +33,7 @@ export default function LandingPage() {
         <p className="text-lg md:text-2xl font-light dark:text-neutral-300">
           View your CodeChef, LeetCode, CodeForces, and AtCoder stats in one place.
         </p>
-        <Button className="bg-black dark:bg-white rounded-full text-white dark:text-black px-6 py-3 text-lg font-medium">
+        <Button className="bg-black dark:bg-white rounded-full text-white dark:text-black px-6 py-6 text-lg font-medium" onClick={() => router.push("/signup")}>
           Get Started
         </Button>
       </motion.div>
@@ -65,27 +58,7 @@ export default function LandingPage() {
         ))}
       </div>
 
-      {/* Carousel Section */}
-      <div className="mt-16 max-w-2xl mx-auto">
-        <Carousel>
-          <CarouselContent>
-            {["CodeChef", "LeetCode", "CodeForces", "AtCoder"].map((platform, index) => (
-              <CarouselItem key={index} className="p-4 text-center">
-                <motion.div
-                  initial={{ opacity: 0.0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, ease: "easeInOut" }}
-                  className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg"
-                >
-                  <h3 className="text-2xl font-semibold dark:text-white">{platform}</h3>
-                </motion.div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </div>
+
 
       {/* Footer */}
       <footer className="absolute bottom-5 w-full text-center text-sm dark:text-neutral-400">
