@@ -1,0 +1,131 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import axios from "axios";
+
+export default function LoginFormDemo() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [rememberMe, setRememberMe] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => setIsLoading(false), 2000);
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            email: e.target.email.value,
+            password: e.target.password.value,
+        };
+
+        try {
+            const response = await axios.post(
+                "https://compcomparebackend.vercel.app/api/auth/login",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            if (response.status === 200) {
+                toast.success("Login successful! Redirecting...", { richColors: true });
+                console.log("Token:", response.data.token);
+                console.log("User ID:", response.data.userId);
+            } else {
+                toast.error("Invalid credentials. Please try again.", { richColors: true });
+            }
+        } catch (error) {
+            toast.error("Invalid credentials. Please try again.", { richColors: true });
+        }
+    };
+
+    return (
+        <div className="max-w-md mt-32 w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+            <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
+                Welcome Back to Aceternity
+            </h2>
+            <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
+                Sign in to access your account
+            </p>
+            <form className="my-8" onSubmit={handleSubmit}>
+                {isLoading ? (
+                    <Skeleton className="w-full h-10 rounded-md mb-4" />
+                ) : (
+                    <LabelInputContainer className="mb-4">
+                        <Label htmlFor="email">Email Address</Label>
+                        <Input id="email" placeholder="example@domain.com" type="email" required />
+                    </LabelInputContainer>
+                )}
+
+                {isLoading ? (
+                    <Skeleton className="w-full h-10 rounded-md mb-4" />
+                ) : (
+                    <LabelInputContainer className="mb-4">
+                        <Label htmlFor="password">Password</Label>
+                        <Input id="password" placeholder="••••••••" type="password" required />
+                    </LabelInputContainer>
+                )}
+
+                {isLoading ? (
+                    <Skeleton className="w-full h-10 rounded-md mb-4" />
+                ) : (
+                    <div className="flex items-center space-x-2 mb-4">
+                        <input 
+                            type="checkbox" 
+                            id="rememberMe" 
+                            checked={rememberMe} 
+                            onChange={(e) => setRememberMe(e.target.checked)} 
+                        />
+                        <Label htmlFor="rememberMe">Remember Me</Label>
+                    </div>
+                )}
+
+                {isLoading ? (
+                    <Skeleton className="w-full h-10 rounded-md mb-4" />
+                ) : (
+                    <button
+                        className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                        type="submit"
+                    >
+                        Sign in &rarr;
+                        <BottomGradient />
+                    </button>
+                )}
+
+                <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+
+                {/* Signup Link */}
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
+                    New user?{" "}
+                    <Link href="/signup" className="text-blue-500 hover:underline">
+                        Go to Signup
+                    </Link>
+                </p>
+            </form>
+        </div>
+    );
+}
+
+const BottomGradient = () => {
+    return (
+        <>
+            <span className="group-hover/btn:opacity-100 block transition duration-500 opacity-0 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-cyan-500 to-transparent" />
+            <span className="group-hover/btn:opacity-100 blur-sm block transition duration-500 opacity-0 absolute h-px w-1/2 mx-auto -bottom-px inset-x-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
+        </>
+    );
+};
+
+const LabelInputContainer = ({ children, className }) => {
+    return (
+        <div className={cn("flex flex-col space-y-2 w-full", className)}>
+            {children}
+        </div>
+    );
+};
