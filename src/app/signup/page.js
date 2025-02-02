@@ -4,18 +4,54 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import axios from 'axios';
+import Link from "next/link";
 export default function SignupFormDemo() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading state (You can replace this with actual data fetching)
     setTimeout(() => setIsLoading(false), 2000); // Fake loading for 2 seconds
   }, []);
-  const router = useRouter();
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted");
+  
+    const password = e.target.password.value;
+    const reenterPassword = e.target.reenterpassword.value;
+  
+    if (password !== reenterPassword) {
+      toast.error("Passwords do not match", { richColors: true });
+      return;
+    }
+  
+    const formData = {
+      firstName: e.target.firstname.value,
+      lastName: e.target.lastname.value,
+      email: e.target.email.value,
+      password,
+      leetcodeUsername: e.target.leetcodeusername.value,
+      codechefUsername: e.target.codechefusername.value || null,
+    };
+
+    try {
+      const response = await axios.post(
+        "https://compcomparebackend.vercel.app/api/users/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200 || response.status === 201) {
+        toast.success("Welcome..Forwarding you to signin page", { richColors: true });
+      } else {
+        toast.error("User Already exists, try sign in", { richColors: true });
+      }
+    } catch (error) {
+      toast.error("User Already exists, try sign in.", { richColors: true });
+    }
   };
 
   return (
@@ -88,11 +124,10 @@ export default function SignupFormDemo() {
         ) : (
           <LabelInputContainer className="mb-4">
             <Label htmlFor="leetcodeusername">Leetcode Username</Label>
-            <Input id="leetcodeusername" placeholder="Leetcodeusername" type="text" required />
+            <Input id="leetcodeusername" placeholder="Leetcodeusername" type="text" />
           </LabelInputContainer>
         )}
 
-        {/* Hide button while loading */}
         {isLoading ? (
           <Skeleton className="w-full h-10 rounded-md mb-4" />
         ) : (
@@ -106,6 +141,12 @@ export default function SignupFormDemo() {
         )}
 
         <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+        <p className="text-sm text-neutral-600 dark:text-neutral-400 text-center">
+                    Already have an account?{" "}
+                    <Link href="/signin" className="text-blue-500 hover:underline">
+                        Go to signin
+                    </Link>
+                </p>
       </form>
     </div>
   );
