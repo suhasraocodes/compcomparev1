@@ -96,7 +96,7 @@ export default function SidebarDemo() {
 const Dashboard = () => {
   return (
     <div className="flex-1 p-4 md:p-10 bg-white dark:bg-neutral-900">
-      <div className="grid grid-cols-2 ml-auto md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 ml-auto md:grid-cols-2  gap-4">
         <Barchart/>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
