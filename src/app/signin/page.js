@@ -7,10 +7,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginFormDemo() {
     const [isLoading, setIsLoading] = useState(true);
     const [rememberMe, setRememberMe] = useState(false);
+    const router = useRouter();
+    const { login } = useAuth(); // Get the login function from AuthContext
 
     useEffect(() => {
         setTimeout(() => setIsLoading(false), 2000);
@@ -28,20 +32,24 @@ export default function LoginFormDemo() {
             const response = await axios.post(
                 "https://compcomparebackend.vercel.app/api/auth/login",
                 formData,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
+                { headers: { "Content-Type": "application/json" } }
             );
-            if (response.status === 200) {
+
+            console.log('Response:', response);  // Log the full response to check the data
+
+            if (response.status === 200 || response.status === 201) {
+                const { token, userId } = response.data;
+                const rememberMe = e.target.rememberMe.checked;
+                console.log(response.data);  // Log the data received
+
                 toast.success("Login successful! Redirecting...", { richColors: true });
-                console.log("Token:", response.data.token);
-                console.log("User ID:", response.data.userId);
+
+                login(token, userId, rememberMe); // Call the login function from AuthContext
             } else {
                 toast.error("Invalid credentials. Please try again.", { richColors: true });
             }
         } catch (error) {
+            console.error('Error:', error);  // Log the error to check what is going wrong
             toast.error("Invalid credentials. Please try again.", { richColors: true });
         }
     };
@@ -60,7 +68,7 @@ export default function LoginFormDemo() {
                 ) : (
                     <LabelInputContainer className="mb-4">
                         <Label htmlFor="email">Email Address</Label>
-                        <Input id="email" placeholder="example@domain.com" type="email" required />
+                        <Input id="email" name="email" placeholder="example@domain.com" type="email" required />
                     </LabelInputContainer>
                 )}
 
@@ -69,7 +77,7 @@ export default function LoginFormDemo() {
                 ) : (
                     <LabelInputContainer className="mb-4">
                         <Label htmlFor="password">Password</Label>
-                        <Input id="password" placeholder="••••••••" type="password" required />
+                        <Input id="password" name="password" placeholder="••••••••" type="password" required />
                     </LabelInputContainer>
                 )}
 
@@ -77,11 +85,11 @@ export default function LoginFormDemo() {
                     <Skeleton className="w-full h-10 rounded-md mb-4" />
                 ) : (
                     <div className="flex items-center space-x-2 mb-4">
-                        <input 
-                            type="checkbox" 
-                            id="rememberMe" 
-                            checked={rememberMe} 
-                            onChange={(e) => setRememberMe(e.target.checked)} 
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
                         />
                         <Label htmlFor="rememberMe">Remember Me</Label>
                     </div>
