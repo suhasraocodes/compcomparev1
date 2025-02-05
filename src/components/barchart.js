@@ -34,7 +34,7 @@ export default function Component() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://leetcode-stats-api.herokuapp.com/suhascodes');
+        const response = await fetch('https://leetcode-api-faisalshohag.vercel.app/chethanb886');
         const data = await response.json();
 
         const { easySolved, mediumSolved, hardSolved } = data;
@@ -69,7 +69,8 @@ export default function Component() {
   };
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col max-w-[350px] mx-auto p-4">
+
       <CardHeader className="items-center pb-0">
         <CardTitle>Leetcode Problem Solving Statistics</CardTitle>
         <CardDescription>Easy, Medium, and Hard problems solved</CardDescription>
@@ -100,28 +101,31 @@ export default function Component() {
           </PieChart>
         </ChartContainer>
         <div className="flex justify-center mt-4">
-          <div className="flex gap-4 text-center">
-            <div className="text-lg font-medium">
-              <div className="text-green-500">Easy</div>
-              <div>{statistics.easySolved}/{statistics.easyTotal}</div>
-            </div>
-            <div className="text-lg font-medium">
-              <div className="text-orange-500">Medium</div>
-              <div>{statistics.mediumSolved}/{statistics.mediumTotal}</div>
-            </div>
-            <div className="text-lg font-medium">
-              <div className="text-red-500">Hard</div>
-              <div>{statistics.hardSolved}/{statistics.hardTotal}</div>
-            </div>
-          </div>
-        </div>
+  <div className="flex gap-4 text-center">
+    {/* Easy Section */}
+    <div className="text-lg font-medium rounded-xl px-4 py-2 shadow-md bg-neutral-800 dark:bg-neutral-800 bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
+      <div className="text-green-500">Easy</div>
+      <div>{statistics.easySolved}/{statistics.easyTotal}</div>
+    </div>
+
+    {/* Medium Section */}
+    <div className="text-lg font-medium rounded-xl px-4 py-2 shadow-md bg-neutral-800 dark:bg-neutral-800 bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
+      <div className="text-orange-500">Med.</div>
+      <div>{statistics.mediumSolved}/{statistics.mediumTotal}</div>
+    </div>
+
+    {/* Hard Section */}
+    <div className="text-lg font-medium rounded-xl px-4 py-2 shadow-md bg-neutral-800 dark:bg-neutral-800 bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
+      <div className="text-red-500">Hard</div>
+      <div>{statistics.hardSolved}/{statistics.hardTotal}</div>
+    </div>
+  </div>
+</div>
+
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing statistics for Leetcode problem solving
+        <div className="flex items-center gap-2 font-medium leading-none mt-3">
+          statistics for Leetcode problem solving <TrendingUp className="h-4 w-4" />
         </div>
       </CardFooter>
     </Card>

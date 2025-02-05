@@ -49,7 +49,7 @@ export default function LandingPage() {
         </p>
         <Button
           className="bg-black dark:bg-white rounded-full text-white dark:text-black px-6 py-6 text-lg font-medium"
-          onClick={() => router.push("/dashboard")}
+          onClick={() => router.push("/dashboard/leetcode")}
         >
           Get Started
         </Button>
