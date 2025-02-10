@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { Pie, PieChart, Sector } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -21,15 +20,8 @@ import {
 export default function Component() {
   const [chartData, setChartData] = useState([]);
   const [statistics, setStatistics] = useState({
-    easySolved: 0,
-    mediumSolved: 0,
-    hardSolved: 0,
-    easyTotal: 856,
-    mediumTotal: 1793,
-    hardTotal: 796,
   });
   const [activeIndex, setActiveIndex] = useState(null);
-
   // Fetch data from the API on mount
   useEffect(() => {
     const fetchData = async () => {
@@ -37,16 +29,16 @@ export default function Component() {
         const response = await fetch('https://leetcode-api-faisalshohag.vercel.app/chethanb886');
         const data = await response.json();
 
-        const { easySolved, mediumSolved, hardSolved } = data;
+        const { easySolved, mediumSolved, hardSolved, totalEasy,totalMedium,totalHard} = data;
 
         // Set statistics
         setStatistics({
           easySolved,
           mediumSolved,
           hardSolved,
-          easyTotal: 856,
-          mediumTotal: 1793,
-          hardTotal: 796,
+          totalEasy,
+          totalMedium,
+          totalHard,
         });
 
         // Map data to the chart format
@@ -69,7 +61,7 @@ export default function Component() {
   };
 
   return (
-    <Card className="flex flex-col max-w-[350px] mx-auto p-4">
+    <Card className="flex flex-col w-full h-full mx-auto p-4">
 
       <CardHeader className="items-center pb-0">
         <CardTitle>Leetcode Problem Solving Statistics</CardTitle>
@@ -103,21 +95,21 @@ export default function Component() {
         <div className="flex justify-center mt-4">
   <div className="flex gap-4 text-center">
     {/* Easy Section */}
-    <div className="text-lg font-medium rounded-xl px-4 py-2 shadow-md bg-neutral-800 dark:bg-neutral-800 bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
+    <div className="text-lg font-medium w-full rounded-xl px-4 py-2 shadow-md  bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
       <div className="text-green-500">Easy</div>
-      <div>{statistics.easySolved}/{statistics.easyTotal}</div>
+      <div>{statistics.easySolved}/{statistics.totalEasy}</div>
     </div>
 
     {/* Medium Section */}
-    <div className="text-lg font-medium rounded-xl px-4 py-2 shadow-md bg-neutral-800 dark:bg-neutral-800 bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
+    <div className="text-lg font-medium w-full rounded-xl px-4 py-2 shadow-md  bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
       <div className="text-orange-500">Med.</div>
-      <div>{statistics.mediumSolved}/{statistics.mediumTotal}</div>
+      <div>{statistics.mediumSolved}/{statistics.totalMedium}</div>
     </div>
 
     {/* Hard Section */}
-    <div className="text-lg font-medium rounded-xl px-4 py-2 shadow-md bg-neutral-800 dark:bg-neutral-800 bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
+    <div className="text-lg font-medium rounded-xl w-full px-4 py-2 shadow-md  bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
       <div className="text-red-500">Hard</div>
-      <div>{statistics.hardSolved}/{statistics.hardTotal}</div>
+      <div>{statistics.hardSolved}/{statistics.totalHard}</div>
     </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ import Barchart from "../../../components/barchart";
 import ProtectedRoute from "../../auth/ProtectedRoutes";
 import Leetprofile from "@/components/leetprofile";
 import LeetCodeStats from "@/components/leetcodestats";
+import BadgeCard from "@/components/BadgeCard";
 
 export default function SidebarDemo() {
   const [open, setOpen] = useState(false);
@@ -62,33 +63,6 @@ const Dashboard = () => {
 
         
       </div>
-    </div>
-  );
-};
-
-const BadgeCard = () => {
-  return (
-    <div className="flex flex-col items-center border rounded-xl bg-gray-900 dark:bg-neutral-800 p-4 shadow-lg text-white">
-      <div className="text-lg font-semibold mb-2">Badges</div>
-      <div className="text-4xl font-bold mb-4">3</div>
-      <div className="flex flex-col items-center md:flex-row gap-4">
-        {/* Badge Image Section */}
-        <div className="flex flex-col items-center">
-          <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-700">
-            <img
-              src="https://assets.leetcode.com/static_assets/marketing/2024-200-lg.png" // Replace with your badge image URL
-              alt="Badge"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="text-sm mt-2">Most Recent Badge</div>
-        </div>
-        
-      </div>
-      {/* Badge Description */}
-      <div className="text-center md:text-left text-xl">
-          200 Days Badge 2024
-        </div>
     </div>
   );
 };
