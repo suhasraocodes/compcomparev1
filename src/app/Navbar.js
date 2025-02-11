@@ -25,7 +25,7 @@ export default function Navbar() {
   }, [darkMode]); // ✅ Dependency array is always the same
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-transparent dark:bg-transparent shadow-lg z-10">
+    <nav className="fixed top-0 left-0 right-0 dark:bg-neutral-900  shadow-lg z-10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <div 
           className="text-2xl font-bold text-gray-800 dark:text-white cursor-pointer"

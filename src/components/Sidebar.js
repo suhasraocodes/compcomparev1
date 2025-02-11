@@ -1,10 +1,38 @@
-import React, { useState } from "react";
-import { Sidebar, SidebarBody, SidebarLink} from "./ui/sidebar"
+"use client"
+import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { Sidebar, SidebarBody, SidebarLink } from "./ui/sidebar";
 import { IconBrandTabler, IconUserBolt } from "@tabler/icons-react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const SidebarComponent = ({ open, setOpen }) => {
+  const [userData, setUserData] = useState(null);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!userId) return;
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_USER_API}/${userId}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const generateAvatar = (firstName, lastName) => {
+    const initials = firstName.charAt(0) + (lastName ? lastName.charAt(0) : "");
+    return `https://ui-avatars.com/api/?name=${initials}&background=random&color=fff&size=50`;
+  };
+
   const links = [
     {
       label: "Profile",
@@ -23,14 +51,8 @@ const SidebarComponent = ({ open, setOpen }) => {
     },
   ];
 
-  const [selectedLink, setSelectedLink] = useState(null);
-
-  const handleLinkClick = (index) => {
-    setSelectedLink(index);
-  };
-
   return (
-    <Sidebar open={open} setOpen={setOpen}>
+    <Sidebar open={open} setOpen={setOpen} >
       <SidebarBody className="justify-between gap-10">
         <div className="flex flex-col flex-1 overflow-y-clip">
           <div className="mt-1 flex flex-col gap-2">
@@ -38,34 +60,35 @@ const SidebarComponent = ({ open, setOpen }) => {
               <SidebarLink
                 key={idx}
                 link={link}
-                onClick={() => handleLinkClick(idx)}
                 className={cn(
                   "flex items-center p-3 rounded-s-full transition-colors w-full",
-                  selectedLink === idx
-                    ? "bg-neutral-500 text-white"
-                    : "hover:bg-gray-200 dark:hover:bg-neutral-500"
+                  pathname === link.href
+                    ? "bg-neutral-400 dark:bg-neutral-600 text-white"
+                    : "hover:bg-neutral-400 dark:hover:bg-neutral-600"
                 )}
               />
             ))}
           </div>
         </div>
-        <div>
-          <SidebarLink
-            link={{
-              label: "Manu Arora",
-              href: "#",
-              icon: (
-                <Image
-                  src="https://assets.aceternity.com/manu.png"
-                  className="h-7 w-7 flex-shrink-0 rounded-full"
-                  width={50}
-                  height={50}
-                  alt="Avatar"
-                />
-              ),
-            }}
-          />
-        </div>
+        {userData && (
+          <div>
+            <SidebarLink
+              link={{
+                label: `${userData.firstName} ${userData.lastName || ""}`.trim(),
+                href: "#",
+                icon: (
+                  <img
+                    src={generateAvatar(userData.firstName, userData.lastName)}
+                    className="h-7 w-7 flex-shrink-0 rounded-full"
+                    width={50}
+                    height={50}
+                    alt="Avatar"
+                  />
+                ),
+              }}
+            />
+          </div>
+        )}
       </SidebarBody>
     </Sidebar>
   );

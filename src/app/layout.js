@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./Navbar";
 import { Toaster } from "sonner";
 import { AuthProvider } from "./context/AuthContext";
+import LoadingScreen from "@/components/LoadingScreen"; // Import the loading screen component
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +27,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-            <Toaster position="top-right" />
-            <Navbar />
-            {children}
+          <LoadingScreen /> {/* Global loading screen */}
+          <Toaster position="top-right" />
+          <Navbar />
+          {children}
         </AuthProvider>
       </body>
     </html>

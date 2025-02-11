@@ -2,28 +2,53 @@
 
 import React, { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import axios from "axios";
 
 const CodeChefStats = () => {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch data from CodeChef API
-    fetch("https://codechef-api.vercel.app/handle/lucifer886")
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error("Error fetching data: ", error));
+    const fetchUserData = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        if (!userId) throw new Error("User ID not found in localStorage");
+
+        // Fetch user data to get CodeChef username
+        const userResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_USER_API}/${userId}`
+        );
+        const codechefUsername = userResponse.data.codechefUsername;
+        if (!codechefUsername) throw new Error("CodeChef username not found");
+
+        // Fetch CodeChef profile data
+        const profileResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_CODECHEF_API}/handle/${codechefUsername}`
+        );
+
+        setData(profileResponse.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4">CodeChef Statistics</h1>
-
-      {data ? (
+      {loading ? (
+        <p>Loading data...</p>
+      ) : data ? (
         <>
           {/* Profile Section */}
           <div className="flex items-center space-x-4 mb-4">
             <img
-              src={data.profile}
+              src={data.profile || 
+              "https://cdn.codechef.com/sites/all/themes/abessive/images/user_default_thumb.jpg"}
               alt="Profile"
               className="w-16 h-16 rounded-full"
             />
@@ -58,7 +83,7 @@ const CodeChefStats = () => {
           </div>
         </>
       ) : (
-        <p>Loading data...</p>
+        <p>Error fetching data.</p>
       )}
     </div>
   );

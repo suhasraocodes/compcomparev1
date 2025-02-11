@@ -24,7 +24,7 @@ export default function SidebarDemo() {
   return (
     <ProtectedRoute>
       <div className="flex flex-col h-screen w-full">
-        <div className="flex flex-1 mt-[74px] h-[calc(100vh-64px)] overflow-hidden">
+        <div className="flex flex-1 mt-[74px] h-[calc(100vh-64px)]  overflow-hidden">
           <SidebarComponent open={open} setOpen={setOpen} />
           <Dashboard />
         </div>
@@ -36,7 +36,7 @@ const Dashboard = () => {
   return (
     <div className="flex-1 bg-gray-100 dark:bg-neutral-900 overflow-y-auto">
       {/* Background Gradient Section */}
-      <div className="relative  p-10">
+      <div className="relative -top-6 p-10">
         {/* Top Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6  relative z-10">
           {/* Profile Section */}
