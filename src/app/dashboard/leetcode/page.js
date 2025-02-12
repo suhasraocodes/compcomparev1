@@ -41,12 +41,12 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6  relative z-10">
           {/* Profile Section */}
           <div className="bg-white dark:bg-neutral-800 shadow-lg rounded-xl p-6">
-            <Leetprofile />
+             <Barchart />
           </div>
 
           {/* Chart Section */}
           <div className="bg-white dark:bg-neutral-800 shadow-lg rounded-xl p-6">
-            <Barchart />
+          <Leetprofile />
           </div>
 
           {/* Badge Section */}

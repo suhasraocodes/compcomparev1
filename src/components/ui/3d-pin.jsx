@@ -2,12 +2,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 export const PinContainer = ({
   children,
   title,
-  href,
   className,
   containerClassName,
 }) => {
@@ -21,11 +19,10 @@ export const PinContainer = ({
   };
 
   return (
-    <Link
+    <div
       className={cn("relative group/pin z-50 cursor-pointer", containerClassName)}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      href={href || "/"}
     >
       <div
         style={{
@@ -43,27 +40,21 @@ export const PinContainer = ({
           <div className={cn("relative z-50", className)}>{children}</div>
         </div>
       </div>
-      <PinPerspective title={title} href={href} />
-    </Link>
+      <PinPerspective title={title} />
+    </div>
   );
 };
 
-export const PinPerspective = ({ title, href }) => {
+export const PinPerspective = ({ title }) => {
   return (
-    <motion.div
-      className="pointer-events-none w-96 h-80 flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-500"
-    >
+    <motion.div className="pointer-events-none w-96 h-80 flex items-center justify-center opacity-0 group-hover/pin:opacity-100 z-[60] transition duration-500">
       <div className="w-full h-full mt-8 flex-none inset-0">
-        <div className="absolute top-0   inset-x-0 flex justify-center">
-        <Link
-  href={href || "#"}
-  target="_blank"
-  className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10"
->
-  <span className="relative z-20 text-white text-xs font-bold inline-block py-0.5">
-    {title}
-  </span>
-</Link>
+        <div className="absolute top-0 inset-x-0 flex justify-center">
+          <div className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10">
+            <span className="relative z-20 text-white text-xs font-bold inline-block py-0.5">
+              {title}
+            </span>
+          </div>
         </div>
 
         <div

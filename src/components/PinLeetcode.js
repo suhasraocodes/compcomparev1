@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { PinContainer } from "@/components/ui/3d-pin";
 import axios from "axios";
 import Image from "next/image";
+import Link from "next/link";
 
 export function PinLeetcode() {
   const [profileData, setProfileData] = useState(null);
@@ -46,6 +47,7 @@ export function PinLeetcode() {
 
   return (
     <div className="h-[40rem] w-full flex items-center justify-center">
+            <Link href="/dashboard/leetcode">
       <PinContainer title="LeetCode" href="/dashboard/leetcode">
         <div className="flex flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem]">
           {loading ? (
@@ -81,6 +83,7 @@ export function PinLeetcode() {
           )}
         </div>
       </PinContainer>
+      </Link>
     </div>
   );
 }
