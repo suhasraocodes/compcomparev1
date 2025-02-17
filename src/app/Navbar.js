@@ -3,14 +3,17 @@
 import React, { useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";  
 import { Button } from "@/components/ui/button";  
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "./context/AuthContext"; 
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, logout } = useAuth();
+  
+  const isHomePage = pathname === "/";
 
-  // ✅ Load dark mode state from localStorage when initializing state
+  // ✅ Load dark mode state from localStorage
   const [darkMode, setDarkMode] = useState(() => {
     return typeof window !== "undefined" && localStorage.getItem("darkMode") === "true";
   });
@@ -22,10 +25,13 @@ export default function Navbar() {
       document.documentElement.classList.remove("dark");
     }
     localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]); // ✅ Dependency array is always the same
+  }, [darkMode]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-transparent dark:bg-transparent shadow-lg z-10">
+    <nav 
+      className={`fixed top-0 left-0 right-0 shadow-lg z-10 
+        ${isHomePage ? "bg-transparent" : darkMode ? "bg-neutral-900" : "bg-white"}`}
+    >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <div 
           className="text-2xl font-bold text-gray-800 dark:text-white cursor-pointer"
