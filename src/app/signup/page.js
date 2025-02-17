@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import axios from 'axios';
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 export default function SignupFormDemo() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -19,7 +20,7 @@ export default function SignupFormDemo() {
 
     const password = e.target.password.value;
     const reenterPassword = e.target.reenterpassword.value;
-
+    
     if (password !== reenterPassword) {
       toast.error("Passwords do not match", { richColors: true });
       return;
@@ -53,7 +54,7 @@ export default function SignupFormDemo() {
       toast.error("User Already exists, try sign in.", { richColors: true });
     }
   };
-
+  const router = useRouter();
   return (
     <div className="max-w-md mt-32 w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
