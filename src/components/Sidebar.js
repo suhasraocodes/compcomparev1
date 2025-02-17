@@ -11,7 +11,7 @@ const SidebarComponent = ({ open, setOpen }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userId = localStorage.getItem("userId");
+      const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
       if (!userId) return;
       try {
         const response = await fetch(

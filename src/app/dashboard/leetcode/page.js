@@ -41,12 +41,12 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6  relative z-10">
           {/* Profile Section */}
           <div className="bg-white dark:bg-neutral-800 shadow-lg rounded-xl p-6">
-             <Barchart />
+            <Barchart />
           </div>
 
           {/* Chart Section */}
           <div className="bg-white dark:bg-neutral-800 shadow-lg rounded-xl p-6">
-          <Leetprofile />
+            <Leetprofile />
           </div>
 
           {/* Badge Section */}
@@ -59,11 +59,8 @@ const Dashboard = () => {
       {/* Lower Section */}
       <div className="-mt-4 ml-10 mr-10 p-10 bg-gray-50 dark:bg-neutral-800  rounded-t-3xl">
         {/* Submission Heatmap Section */}
-          <LeetCodeStats />
-
-        
+        <LeetCodeStats />
       </div>
     </div>
   );
 };
-

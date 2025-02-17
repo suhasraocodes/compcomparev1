@@ -5,14 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import axios from 'axios';
+import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
 export default function SignupFormDemo() {
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 2000); // Fake loading for 2 seconds
+    setTimeout(() => setIsLoading(false), 2000);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -20,7 +22,7 @@ export default function SignupFormDemo() {
 
     const password = e.target.password.value;
     const reenterPassword = e.target.reenterpassword.value;
-    
+
     if (password !== reenterPassword) {
       toast.error("Passwords do not match", { richColors: true });
       return;
@@ -37,7 +39,7 @@ export default function SignupFormDemo() {
 
     try {
       const response = await axios.post(
-        "https://compcomparebackend.vercel.app/api/users/register",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/register`,
         formData,
         {
           headers: {
@@ -46,7 +48,10 @@ export default function SignupFormDemo() {
         }
       );
       if (response.status === 200 || response.status === 201) {
-        toast.success("Welcome..Forwarding you to signin page", { richColors: true });
+        toast.success("Welcome..Forwarding you to signin page", {
+          richColors: true,
+        });
+        router.push("/signin");
       } else {
         toast.error("User Already exists, try sign in", { richColors: true });
       }
@@ -54,15 +59,14 @@ export default function SignupFormDemo() {
       toast.error("User Already exists, try sign in.", { richColors: true });
     }
   };
-  const router = useRouter();
+
   return (
     <div className="max-w-md mt-32 w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-        Welcome to Aceternity
+        Welcome to CodeStats
       </h2>
       <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-        Login to aceternity if you can because we don&apos;t have a login flow
-        yet
+        Sign up to get started
       </p>
       <form className="my-8" onSubmit={handleSubmit}>
         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
@@ -75,11 +79,21 @@ export default function SignupFormDemo() {
             <>
               <LabelInputContainer>
                 <Label htmlFor="firstname">First name</Label>
-                <Input id="firstname" placeholder="Tyler" type="text" required />
+                <Input
+                  id="firstname"
+                  placeholder="Tyler"
+                  type="text"
+                  required
+                />
               </LabelInputContainer>
               <LabelInputContainer>
                 <Label htmlFor="lastname">Last name</Label>
-                <Input id="lastname" placeholder="Durden" type="text" required />
+                <Input
+                  id="lastname"
+                  placeholder="Durden"
+                  type="text"
+                  required
+                />
               </LabelInputContainer>
             </>
           )}
@@ -89,7 +103,12 @@ export default function SignupFormDemo() {
         ) : (
           <LabelInputContainer className="mb-4">
             <Label htmlFor="email">Email Address</Label>
-            <Input id="email" placeholder="example@domain.com" type="email" required />
+            <Input
+              id="email"
+              placeholder="example@domain.com"
+              type="email"
+              required
+            />
           </LabelInputContainer>
         )}
 
@@ -98,7 +117,12 @@ export default function SignupFormDemo() {
         ) : (
           <LabelInputContainer className="mb-4">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" placeholder="••••••••" type="password" required />
+            <Input
+              id="password"
+              placeholder="••••••••"
+              type="password"
+              required
+            />
           </LabelInputContainer>
         )}
 
@@ -107,7 +131,12 @@ export default function SignupFormDemo() {
         ) : (
           <LabelInputContainer className="mb-4">
             <Label htmlFor="reenterpassword">Re-enter Password</Label>
-            <Input id="reenterpassword" placeholder="••••••••" type="password" required />
+            <Input
+              id="reenterpassword"
+              placeholder="••••••••"
+              type="password"
+              required
+            />
           </LabelInputContainer>
         )}
 
@@ -116,7 +145,11 @@ export default function SignupFormDemo() {
         ) : (
           <LabelInputContainer className="mb-4">
             <Label htmlFor="codechefusername">Codechef Username</Label>
-            <Input id="codechefusername" placeholder="CodechefUsername" type="text" />
+            <Input
+              id="codechefusername"
+              placeholder="CodechefUsername"
+              type="text"
+            />
           </LabelInputContainer>
         )}
 
@@ -125,7 +158,11 @@ export default function SignupFormDemo() {
         ) : (
           <LabelInputContainer className="mb-4">
             <Label htmlFor="leetcodeusername">Leetcode Username</Label>
-            <Input id="leetcodeusername" placeholder="Leetcodeusername" type="text" />
+            <Input
+              id="leetcodeusername"
+              placeholder="Leetcodeusername"
+              type="text"
+            />
           </LabelInputContainer>
         )}
 
@@ -134,7 +171,7 @@ export default function SignupFormDemo() {
         ) : (
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-            type="submit" onClick={() => router.push("/dashboard")}
+            type="submit"
           >
             Sign up &rarr;
             <BottomGradient />

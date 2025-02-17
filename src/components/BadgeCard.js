@@ -10,7 +10,8 @@ const BadgeCard = () => {
     const fetchBadges = async () => {
       try {
         // Get userId from local storage
-        const userId = localStorage.getItem("userId");
+        const userId =
+          localStorage.getItem("userId") || sessionStorage.getItem("userId");
         if (!userId) throw new Error("User ID not found in local storage");
 
         // Fetch user data using userId to get leetcodeUsername
@@ -64,7 +65,10 @@ const BadgeCard = () => {
           }`}
         >
           {badges.map((badge) => (
-            <div key={badge.id} className="flex flex-col items-center text-center">
+            <div
+              key={badge.id}
+              className="flex flex-col items-center text-center"
+            >
               <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden bg-gray-700">
                 <img
                   src={badge.icon}
@@ -72,7 +76,9 @@ const BadgeCard = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="text-sm mt-2 font-medium">{badge.displayName}</div>
+              <div className="text-sm mt-2 font-medium">
+                {badge.displayName}
+              </div>
               <div className="text-xs text-gray-600 dark:text-gray-400">
                 Earned on: {new Date(badge.creationDate).toLocaleDateString()}
               </div>
@@ -81,7 +87,8 @@ const BadgeCard = () => {
         </div>
       ) : (
         <p className="text-sm text-gray-400">
-          You haven&apos;t earned any badges yet. Keep coding and unlock your first badge!
+          You haven&apos;t earned any badges yet. Keep coding and unlock your
+          first badge!
         </p>
       )}
     </div>

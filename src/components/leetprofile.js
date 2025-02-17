@@ -10,8 +10,9 @@ export default function Leetprofile() {
   const [profileData, setProfileData] = useState(null);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [loading, setLoading] = useState(true);
-
-  const getUserId = () => localStorage.getItem("userId");
+  const [leetcodeUsername, setLeetcodeUsername] = useState("");
+  const getUserId = () =>
+    localStorage.getItem("userId") || sessionStorage.getItem("userId");
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -39,6 +40,7 @@ export default function Leetprofile() {
 
         setProfileData(profileResponse.data);
         setAvatarUrl(avatar);
+        setLeetcodeUsername(leetcodeUsername);
       } catch (error) {
         console.error("Error fetching Leetcode data", error);
       } finally {
@@ -63,11 +65,14 @@ export default function Leetprofile() {
 
   return (
     <CardContainer className="flex justify-center w-full">
-    <CardBody className="bg-gray-50 dark:bg-neutral-900 border rounded-xl p-6 w-full h-auto flex flex-col items-center shadow-lg transition-all hover:scale-105 transform duration-300 ease-in-out">
-    {/* Profile Image */}
+      <CardBody className="bg-gray-50 dark:bg-neutral-900 border rounded-xl p-6 w-full h-auto flex flex-col items-center shadow-lg transition-all hover:scale-105 transform duration-300 ease-in-out">
+        {/* Profile Image */}
         <CardItem translateZ="100" className="mt-4">
           <Image
-            src={avatarUrl || "https://assets.leetcode.com/users/avatars/avatar_1695034583.png"}
+            src={
+              avatarUrl ||
+              "https://assets.leetcode.com/users/avatars/avatar_1695034583.png"
+            }
             height={80}
             width={80}
             className="h-24 w-24 sm:h-28 sm:w-28 object-cover rounded-full border-4 border-gradient-to-br from-green-400 to-blue-500"
@@ -76,12 +81,18 @@ export default function Leetprofile() {
         </CardItem>
 
         {/* Profile Name */}
-        <CardItem translateZ="50" className="text-lg sm:text-xl font-semibold text-neutral-700 dark:text-white mt-4">
+        <CardItem
+          translateZ="50"
+          className="text-lg sm:text-xl font-semibold text-neutral-700 dark:text-white mt-4"
+        >
           {profileData?.username}
         </CardItem>
 
         {/* Profile Stats */}
-        <CardItem translateZ="10" className="text-neutral-600 dark:text-neutral-300 text-sm sm:text-base mt-2 text-center w-full">
+        <CardItem
+          translateZ="10"
+          className="text-neutral-600 dark:text-neutral-300 text-sm sm:text-base mt-2 text-center w-full"
+        >
           <div className="font-medium bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-white rounded-xl px-4 sm:px-6 py-2 shadow-lg mb-4 transform transition-transform duration-300 hover:translate-y-[-2px]">
             Rank: {profileData?.ranking}
           </div>
@@ -98,7 +109,7 @@ export default function Leetprofile() {
           <CardItem
             translateZ={10}
             as={Link}
-            href={`https://leetcode.com/${profileData?.username}`}
+            href={`https://leetcode.com/${leetcodeUsername}`}
             target="_blank"
             className="font-medium bg-black text-white dark:bg-white dark:text-black rounded-full px-6 py-2 sm:px-8 sm:py-3 transform transition-transform duration-300 shadow-lg hover:translate-y-[-2px]"
           >
