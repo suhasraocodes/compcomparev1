@@ -11,7 +11,7 @@ const CodeChefStats = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = localStorage.getItem("userId");
+        const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
         if (!userId) throw new Error("User ID not found in localStorage");
 
         // Fetch user data to get CodeChef username

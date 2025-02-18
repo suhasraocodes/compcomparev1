@@ -11,7 +11,7 @@ const LeetCodeStats = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = localStorage.getItem("userId"); // Retrieve userId from local storage
+        const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId"); // Retrieve userId from local storage
         if (!userId) {
           console.error("User ID not found in local storage");
           return;

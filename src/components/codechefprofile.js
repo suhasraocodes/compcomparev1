@@ -9,11 +9,12 @@ import axios from "axios";
 export default function Leetprofile() {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [codechefUsername, setCodechefUsername] = useState("");
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = localStorage.getItem("userId");
+        const userId =
+          localStorage.getItem("userId") || sessionStorage.getItem("userId");
         if (!userId) throw new Error("User ID not found in localStorage");
 
         // Fetch user data to get CodeChef username
@@ -30,6 +31,7 @@ export default function Leetprofile() {
 
         if (profileResponse.status === 200) {
           setProfileData(profileResponse.data);
+          setCodechefUsername(codechefUsername);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -108,7 +110,7 @@ export default function Leetprofile() {
             <CardItem
               translateZ={10}
               as={Link}
-              href={`https://www.codechef.com/users/${profileData.name}`}
+              href={`https://www.codechef.com/users/${codechefUsername}`}
               target="_blank"
               className="font-medium bg-black text-white dark:bg-white dark:text-black rounded-full px-6 py-2 shadow-lg hover:translate-y-[-2px]"
             >

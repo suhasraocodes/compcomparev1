@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { TrendingUp } from "lucide-react";
@@ -34,7 +34,7 @@ export default function Component() {
     const fetchData = async () => {
       try {
         // Step 1: Get userId from local storage
-        const userId = localStorage.getItem("userId");
+        const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
 
         if (!userId) {
           console.error("User ID not found in local storage");
@@ -58,7 +58,14 @@ export default function Component() {
         );
         const leetcodeData = await leetcodeResponse.json();
 
-        const { easySolved, mediumSolved, hardSolved, totalEasy, totalMedium, totalHard } = leetcodeData;
+        const {
+          easySolved,
+          mediumSolved,
+          hardSolved,
+          totalEasy,
+          totalMedium,
+          totalHard,
+        } = leetcodeData;
 
         // Set statistics
         setStatistics({
@@ -72,9 +79,21 @@ export default function Component() {
 
         // Map data to the chart format
         setChartData([
-          { browser: "Easy", visitors: easySolved, fill: "var(--color-easy, #4CAF50)" },
-          { browser: "Medium", visitors: mediumSolved, fill: "var(--color-medium, #FF9800)" },
-          { browser: "Hard", visitors: hardSolved, fill: "var(--color-hard, #F44336)" },
+          {
+            browser: "Easy",
+            visitors: easySolved,
+            fill: "var(--color-easy, #4CAF50)",
+          },
+          {
+            browser: "Medium",
+            visitors: mediumSolved,
+            fill: "var(--color-medium, #FF9800)",
+          },
+          {
+            browser: "Hard",
+            visitors: hardSolved,
+            fill: "var(--color-hard, #F44336)",
+          },
         ]);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -93,7 +112,9 @@ export default function Component() {
     <Card className="flex flex-col w-full h-full mx-auto p-4">
       <CardHeader className="items-center pb-0">
         <CardTitle>Leetcode Problem Solving Statistics</CardTitle>
-        <CardDescription>Easy, Medium, and Hard problems solved</CardDescription>
+        <CardDescription>
+          Easy, Medium, and Hard problems solved
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -125,26 +146,33 @@ export default function Component() {
             {/* Easy Section */}
             <div className="text-lg font-medium w-full rounded-xl px-4 py-2 shadow-md bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
               <div className="text-green-500">Easy</div>
-              <div>{statistics.easySolved}/{statistics.totalEasy}</div>
+              <div>
+                {statistics.easySolved}/{statistics.totalEasy}
+              </div>
             </div>
 
             {/* Medium Section */}
             <div className="text-lg font-medium w-full rounded-xl px-4 py-2 shadow-md bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
               <div className="text-orange-500">Med.</div>
-              <div>{statistics.mediumSolved}/{statistics.totalMedium}</div>
+              <div>
+                {statistics.mediumSolved}/{statistics.totalMedium}
+              </div>
             </div>
 
             {/* Hard Section */}
             <div className="text-lg font-medium rounded-xl w-full px-4 py-2 shadow-md bg-white dark:bg-neutral-800 transform transition-transform duration-300 hover:translate-y-[-5px]">
               <div className="text-red-500">Hard</div>
-              <div>{statistics.hardSolved}/{statistics.totalHard}</div>
+              <div>
+                {statistics.hardSolved}/{statistics.totalHard}
+              </div>
             </div>
           </div>
         </div>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none mt-3">
-          Statistics for Leetcode problem solving <TrendingUp className="h-4 w-4" />
+          Statistics for Leetcode problem solving{" "}
+          <TrendingUp className="h-4 w-4" />
         </div>
       </CardFooter>
     </Card>

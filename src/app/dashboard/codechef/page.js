@@ -42,7 +42,7 @@ const Dashboard = () => {
     const fetchUserData = async () => {
       try {
         console.log("Fetching userId from localStorage...");
-        const userId = localStorage.getItem("userId");
+        const userId =  localStorage.getItem("userId") || sessionStorage.getItem("userId");
         console.log("Retrieved userId:", userId);
 
         if (!userId) {
