@@ -40,9 +40,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        console.log("Fetching userId from localStorage...");
         const userId =  localStorage.getItem("userId") || sessionStorage.getItem("userId");
-        console.log("Retrieved userId:", userId);
 
         if (!userId) {
           console.error("User ID not found in localStorage");
@@ -50,19 +48,14 @@ const Dashboard = () => {
         }
 
         const userApiUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`;
-        console.log("Fetching user data from API:", userApiUrl);
 
         const response = await fetch(userApiUrl);
-        console.log("API Response Status:", response.status);
 
         const text = await response.text();
-        console.log("Raw API Response:", text);
 
         const data = JSON.parse(text);
-        console.log("Parsed JSON Data:", data);
 
         if (data.codechefUsername) {
-          console.log("Found CodeChef Username:", data.codechefUsername);
           setCodechefUsername(data.codechefUsername);
         } else {
           console.error("Codechef username not found in API response");

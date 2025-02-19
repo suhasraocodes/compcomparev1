@@ -1,42 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { PinContainer } from "@/components/ui/3d-pin";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import withCodeChefProfile from "@/components/withCodeChefProfile";
 
-export function PinCodechef() {
-  const [profileData, setProfileData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
-        if (!userId) throw new Error("User ID not found in localStorage");
-
-        const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
-        );
-        const codechefUsername = userResponse.data.codechefUsername;
-        if (!codechefUsername) throw new Error("CodeChef username not found");
-
-        const profileResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_CODECHEF_API}/handle/${codechefUsername}`
-        );
-        if (profileResponse.status === 200) {
-          setProfileData(profileResponse.data);
-        }
-      } catch (error) {
-        console.error("Error fetching CodeChef data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
+function PinCodechef({ profileData, loading }) {
   return (
     <div className="h-[40rem] w-full flex items-center justify-center">
       <Link href="/dashboard/codechef">
@@ -79,3 +48,5 @@ export function PinCodechef() {
     </div>
   );
 }
+
+export default withCodeChefProfile(PinCodechef);

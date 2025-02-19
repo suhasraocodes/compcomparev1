@@ -35,12 +35,10 @@ export default function LoginFormDemo() {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      console.log("Response:", response); // Log the full response to check the data
 
       if (response.status === 200 || response.status === 201) {
         const { token, userId } = response.data;
         const rememberMe = e.target.rememberMe.checked;
-        console.log(response.data); // Log the data received
 
         toast.success("Login successful! Redirecting...", { richColors: true });
 

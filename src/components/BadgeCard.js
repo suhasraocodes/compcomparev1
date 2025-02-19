@@ -27,7 +27,7 @@ const BadgeCard = () => {
 
         // Fetch badges using leetcodeUsername
         const badgesResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_LEETCODE_API2}/${leetcodeUsername}/badges`
+          `${process.env.NEXT_PUBLIC_LEETCODE_API}/${leetcodeUsername}/badges`
         );
         if (!badgesResponse.ok) throw new Error("Failed to fetch badges");
         const badgeData = await badgesResponse.json();

@@ -1,64 +1,34 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card } from "@/components/ui/card";
-import axios from "axios";
+import withCodeChefProfile from "@/components/withCodeChefProfile";
 
-const CodeChefStats = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
-        if (!userId) throw new Error("User ID not found in localStorage");
-
-        // Fetch user data to get CodeChef username
-        const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
-        );
-        const codechefUsername = userResponse.data.codechefUsername;
-        if (!codechefUsername) throw new Error("CodeChef username not found");
-
-        // Fetch CodeChef profile data
-        const profileResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_CODECHEF_API}/handle/${codechefUsername}`
-        );
-
-        setData(profileResponse.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
+const CodeChefStats = ({ profileData, loading }) => {
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-4">CodeChef Statistics</h1>
       {loading ? (
         <p>Loading data...</p>
-      ) : data ? (
+      ) : profileData ? (
         <>
           {/* Profile Section */}
           <div className="flex items-center space-x-4 mb-4">
             <img
-              src={data.profile || 
-              "https://cdn.codechef.com/sites/all/themes/abessive/images/user_default_thumb.jpg"}
+              src={
+                profileData.profile ||
+                "https://cdn.codechef.com/sites/all/themes/abessive/images/user_default_thumb.jpg"
+              }
               alt="Profile"
               className="w-16 h-16 rounded-full"
             />
             <div>
-              <h3 className="text-lg font-semibold">{data.name}</h3>
+              <h3 className="text-lg font-semibold">{profileData.name}</h3>
               <p className="text-sm text-gray-500">
-                Rating: {data.currentRating} | Highest Rating: {data.highestRating}
+                Rating: {profileData.currentRating} | Highest Rating: {profileData.highestRating}
               </p>
               <p className="text-sm text-gray-500">
-                Stars: {data.stars} | Country: {data.countryName}
+                Stars: {profileData.stars} | Country: {profileData.countryName}
               </p>
             </div>
           </div>
@@ -66,7 +36,7 @@ const CodeChefStats = () => {
           {/* Rating Data Section */}
           <h2 className="text-lg font-semibold mb-4">Rating History</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {data.ratingData.map((rating, index) => (
+            {profileData.ratingData.map((rating, index) => (
               <Card key={index} className="p-4 border border-gray-300 shadow-md">
                 <h3 className="text-lg font-semibold">{rating.name}</h3>
                 <p className="text-sm">
@@ -89,4 +59,4 @@ const CodeChefStats = () => {
   );
 };
 
-export default CodeChefStats;
+export default withCodeChefProfile(CodeChefStats);

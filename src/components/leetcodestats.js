@@ -41,7 +41,7 @@ const LeetCodeStats = () => {
 
     const fetchLeetCodeStats = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_LEETCODE_API}/${username}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_LEETCODE_API}/userprofile/${username}`);
         const leetData = await response.json();
         setData(leetData);
       } catch (error) {

@@ -25,7 +25,7 @@ export function PinLeetcode() {
   
         // Fetch LeetCode profile data
         const profileResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_LEETCODE_API2}/${leetcodeUsername}`
+          `${process.env.NEXT_PUBLIC_LEETCODE_API}/${leetcodeUsername}`
         );
   
   

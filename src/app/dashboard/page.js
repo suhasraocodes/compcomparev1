@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import SidebarComponent from "@/components/Sidebar";
 import ProtectedRoute from "../auth/ProtectedRoutes";
 import Image from "next/image";
-import { PinCodechef } from "@/components/PinCodechef";
-import { PinLeetcode } from "@/components/PinLeetcode";
+import PinCodechef from "@/components/PinCodechef";
+import {PinLeetcode} from "@/components/PinLeetcode";
 import { motion } from "framer-motion";
 
 export default function SidebarDemo() {

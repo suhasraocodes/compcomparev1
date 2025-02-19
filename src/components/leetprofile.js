@@ -29,7 +29,7 @@ export default function Leetprofile() {
 
         // Fetch avatar
         const avatarResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_LEETCODE_API2}/${leetcodeUsername}`
+          `${process.env.NEXT_PUBLIC_LEETCODE_API}/${leetcodeUsername}`
         );
         const avatar = avatarResponse.data.avatar || "";
 
