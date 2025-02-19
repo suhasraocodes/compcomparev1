@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-
+import { Github } from "lucide-react";
 export default function LandingPage() {
   const [darkMode, setDarkMode] = useState(false);
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function LandingPage() {
               Track Your Competitive Coding Journey
             </h1>
             <p className="text-lg md:text-2xl font-light dark:text-neutral-300">
-              View your CodeChef, LeetCode, CodeForces, and AtCoder stats in one place.
+              View your CodeChef and LeetCode stats in one place.
             </p>
             <Button
               className="bg-black dark:bg-white rounded-full text-white dark:text-black px-6 py-6 text-lg font-medium"
@@ -58,11 +58,14 @@ export default function LandingPage() {
           </motion.div>
 
           {/* Animated Stats Section */}
+          {/* Animated Stats Section */}
           <div className="flex flex-wrap justify-center gap-10 mt-16">
             {[
-              { title: "1000+", subtitle: "Users" },
-              { title: "50K+", subtitle: "Problems Solved" },
-              { title: "4+", subtitle: "Platforms Integrated" },
+              {
+                title: "CodeChef & LeetCode",
+                subtitle: "Platforms Integrated",
+              },
+              { title: "Track in Real Time", subtitle: "Your Coding Progress" },
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -75,15 +78,34 @@ export default function LandingPage() {
                 }}
                 className="bg-white dark:bg-black p-6 rounded-lg shadow-lg text-center"
               >
-                <h2 className="text-3xl font-bold dark:text-white">{stat.title}</h2>
-                <p className="text-lg font-light dark:text-neutral-300">{stat.subtitle}</p>
+                <h2 className="text-3xl font-bold dark:text-white">
+                  {stat.title}
+                </h2>
+                <p className="text-lg font-light dark:text-neutral-300">
+                  {stat.subtitle}
+                </p>
               </motion.div>
             ))}
           </div>
 
-          {/* Footer */}
           <footer className="absolute bottom-5 w-full text-center text-sm dark:text-neutral-400">
-            © {new Date().getFullYear()} CodeStats | Built with ❤️ by Developers
+            {/* GitHub Support Section */}
+            <div className="mb-4 flex justify-center items-center gap-2">
+              <span className="text-base dark:text-neutral-300">
+                Support us on
+              </span>
+              <a
+                href="https://github.com/suhasraocodes/compcomparev1" // Replace with your GitHub
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-blue-500 hover:text-blue-700 transition"
+              >
+                <Github size={20} />
+                <span className="font-medium">GitHub</span>
+              </a>
+            </div>
+            {/* Footer Text */}© {new Date().getFullYear()} CodeStats | Built
+            with ❤️ by Chethan886 & suhasraocodes
           </footer>
         </AuroraBackground>
       </div>
