@@ -1,12 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import Link from "next/link";
 import withCodeChefProfile from "@/components/withCodeChefProfile";
+import axios from "axios";
 
-const Leetprofile = ({ profileData, loading }) => {
+const CodeChefProfile = ({ profileData, loading }) => {
+  const [codechefUsername, setCodechefUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId =
+          localStorage.getItem("userId") || sessionStorage.getItem("userId");
+        if (!userId) throw new Error("User ID not found in localStorage");
+
+        // Fetch user data to get CodeChef username
+        const userResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
+        );
+        setCodechefUsername(userResponse.data.codechefUsername || "");
+      } catch (error) {
+        console.error("Error fetching CodeChef username:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   const renderStat = (label, value) =>
     value ? (
       <div className="font-medium bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-white rounded-full px-6 py-2 shadow-lg mb-4 hover:translate-y-[-2px]">
@@ -66,12 +89,12 @@ const Leetprofile = ({ profileData, loading }) => {
         </CardItem>
 
         {/* Buttons */}
-        {profileData?.name && (
+        {profileData?.name && codechefUsername && (
           <div className="flex gap-4 mt-6">
             <CardItem
               translateZ={10}
               as={Link}
-              href={`https://www.codechef.com/users/${profileData.codechefUsername}`}
+              href={`https://www.codechef.com/users/${codechefUsername}`}
               target="_blank"
               className="font-medium bg-black text-white dark:bg-white dark:text-black rounded-full px-6 py-2 shadow-lg hover:translate-y-[-2px]"
             >
@@ -84,4 +107,4 @@ const Leetprofile = ({ profileData, loading }) => {
   );
 };
 
-export default withCodeChefProfile(Leetprofile);
+export default withCodeChefProfile(CodeChefProfile);
