@@ -8,20 +8,78 @@ import { toast } from "sonner";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function SignupFormDemo() {
   const [isLoading, setIsLoading] = useState(true);
+  const [validUsernames, setValidUsernames] = useState({
+    leetcodeUsername: null,
+    codechefUsername: null,
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showReenterPassword, setShowReenterPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [reenterPassword, setReenterPassword] = useState("");
   const router = useRouter();
-
+  const getBorderColor = () => {
+    if (!password || !reenterPassword) return ""; // No border when empty
+    return password === reenterPassword ? "border-green-500" : "border-red-500";
+  };
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 2000);
   }, []);
+
+  const verifyUsername = async (platform, username) => {
+    if (!username.trim()) {
+      setValidUsernames((prev) => ({ ...prev, [platform]: null }));
+      return;
+    }
+
+    let url;
+    if (platform === "leetcodeUsername") {
+      url = `${process.env.NEXT_PUBLIC_LEETCODE_API}/${username}`;
+    } else if (platform === "codechefUsername") {
+      url = `${process.env.NEXT_PUBLIC_CODECHEF_API}/handle/${username}`;
+    }
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        setValidUsernames((prev) => ({ ...prev, [platform]: false }));
+        return false;
+      }
+
+      const data = await response.json();
+
+      if (platform === "leetcodeUsername") {
+        if (data.errors?.some((error) => error.message.includes("does not exist"))) {
+          setValidUsernames((prev) => ({ ...prev, [platform]: false }));
+          return false;
+        }
+      } else if (platform === "codechefUsername") {
+        if (data.success === false && data.status === 404) {
+          setValidUsernames((prev) => ({ ...prev, [platform]: false }));
+          return false;
+        }
+      }
+
+      setValidUsernames((prev) => ({ ...prev, [platform]: true }));
+      return true;
+    } catch (error) {
+      setValidUsernames((prev) => ({ ...prev, [platform]: false }));
+      console.error(`Error verifying ${platform} username:`, error);
+      return false;
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const password = e.target.password.value;
     const reenterPassword = e.target.reenterpassword.value;
+
+    setPassword(password);
+    setReenterPassword(reenterPassword);
 
     if (password !== reenterPassword) {
       toast.error("Passwords do not match", { richColors: true });
@@ -112,33 +170,57 @@ export default function SignupFormDemo() {
           </LabelInputContainer>
         )}
 
-        {isLoading ? (
-          <Skeleton className="w-full h-10 rounded-md mb-4" />
-        ) : (
-          <LabelInputContainer className="mb-4">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              placeholder="••••••••"
-              type="password"
-              required
-            />
-          </LabelInputContainer>
-        )}
+{isLoading ? (
+  <Skeleton className="w-full h-10 rounded-md mb-4" />
+) : (
+  <LabelInputContainer className="mb-4">
+    <Label htmlFor="password">Password</Label>
+    <div className="relative">
+      <Input
+        id="password"
+        placeholder="••••••••"
+        type={showPassword ? "text" : "password"}
+        required
+        className={`${getBorderColor()}`}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button
+        type="button"
+        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+        onClick={() => setShowPassword(!showPassword)}
+      >
+        {showPassword ? <FaEyeSlash /> : <FaEye />}
+      </button>
+    </div>
+  </LabelInputContainer>
+)}
 
-        {isLoading ? (
-          <Skeleton className="w-full h-10 rounded-md mb-4" />
-        ) : (
-          <LabelInputContainer className="mb-4">
-            <Label htmlFor="reenterpassword">Re-enter Password</Label>
-            <Input
-              id="reenterpassword"
-              placeholder="••••••••"
-              type="password"
-              required
-            />
-          </LabelInputContainer>
-        )}
+{isLoading ? (
+  <Skeleton className="w-full h-10 rounded-md mb-4" />
+) : (
+  <LabelInputContainer className="mb-4">
+    <Label htmlFor="reenterpassword">Re-enter Password</Label>
+    <div className="relative">
+      <Input
+        id="reenterpassword"
+        placeholder="••••••••"
+        type={showReenterPassword ? "text" : "password"}
+        required
+        className={`${getBorderColor()}`}
+        value={reenterPassword}
+        onChange={(e) => setReenterPassword(e.target.value)}
+      />
+      <button
+        type="button"
+        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+        onClick={() => setShowReenterPassword(!showReenterPassword)}
+      >
+        {showReenterPassword ? <FaEyeSlash /> : <FaEye />}
+      </button>
+    </div>
+  </LabelInputContainer>
+)}
 
         {isLoading ? (
           <Skeleton className="w-full h-10 rounded-md mb-4" />
@@ -149,6 +231,8 @@ export default function SignupFormDemo() {
               id="codechefusername"
               placeholder="CodechefUsername"
               type="text"
+              onChange={(e) => verifyUsername("codechefUsername", e.target.value)}
+              className={validUsernames.codechefUsername === false ? "border-red-500" : validUsernames.codechefUsername === true ? "border-green-500" : ""}
             />
           </LabelInputContainer>
         )}
@@ -162,6 +246,8 @@ export default function SignupFormDemo() {
               id="leetcodeusername"
               placeholder="Leetcodeusername"
               type="text"
+              onChange={(e) => verifyUsername("leetcodeUsername", e.target.value)}
+              className={validUsernames.leetcodeUsername === false ? "border-red-500" : validUsernames.leetcodeUsername === true ? "border-green-500" : ""}
             />
           </LabelInputContainer>
         )}

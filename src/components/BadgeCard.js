@@ -16,7 +16,7 @@ const BadgeCard = () => {
 
         // Fetch user data using userId to get leetcodeUsername
         const userResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_USER_API}/${userId}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
         );
         if (!userResponse.ok) throw new Error("Failed to fetch user data");
         const userData = await userResponse.json();

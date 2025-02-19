@@ -19,7 +19,7 @@ const LeetCodeStats = () => {
 
         // Fetch user details to get LeetCode username
         const userResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_USER_API}/${userId}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
         );
         const userData = await userResponse.json();
 

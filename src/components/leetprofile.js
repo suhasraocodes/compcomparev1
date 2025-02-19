@@ -22,7 +22,7 @@ export default function Leetprofile() {
 
         // Get Leetcode username
         const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_USER_API}/${userId}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
         );
         const leetcodeUsername = userResponse.data.leetcodeUsername;
         if (!leetcodeUsername) throw new Error("Leetcode username not found");
@@ -71,8 +71,8 @@ export default function Leetprofile() {
           <Image
             src={
               avatarUrl ||
-              "https://assets.leetcode.com/users/avatars/avatar_1695034583.png"
-            }
+              "/images/leetcode.svg"
+            }  
             height={80}
             width={80}
             className="h-24 w-24 sm:h-28 sm:w-28 object-cover rounded-full border-4 border-gradient-to-br from-green-400 to-blue-500"

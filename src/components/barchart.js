@@ -43,7 +43,7 @@ export default function Component() {
 
         // Step 2: Fetch LeetCode username using userId
         const userResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_USER_API}/${userId}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
         );
         const userData = await userResponse.json();
 

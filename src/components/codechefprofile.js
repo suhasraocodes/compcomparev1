@@ -19,7 +19,7 @@ export default function Leetprofile() {
 
         // Fetch user data to get CodeChef username
         const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_USER_API}/${userId}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
         );
         const codechefUsername = userResponse.data.codechefUsername;
         if (!codechefUsername) throw new Error("CodeChef username not found");
@@ -72,7 +72,7 @@ export default function Leetprofile() {
             <Image
               src={
                 profileData.profile ||
-                "https://cdn.codechef.com/sites/all/themes/abessive/images/user_default_thumb.jpg"
+                "/images/codechef.svg"
               }
               height={80}
               width={80}

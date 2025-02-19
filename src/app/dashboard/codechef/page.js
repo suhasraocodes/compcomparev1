@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import SidebarComponent from "@/components/Sidebar";
-import Barchart from "../../../components/barchart";
 import ProtectedRoute from "../../auth/ProtectedRoutes";
 import Codechefprofile from "../../../components/codechefprofile";
 import CodechefStats from "@/components/codechefstats";
@@ -50,7 +49,7 @@ const Dashboard = () => {
           return;
         }
 
-        const userApiUrl = `${process.env.NEXT_PUBLIC_USER_API}/${userId}`;
+        const userApiUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`;
         console.log("Fetching user data from API:", userApiUrl);
 
         const response = await fetch(userApiUrl);

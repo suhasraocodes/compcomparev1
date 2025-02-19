@@ -30,7 +30,7 @@ export default function LoginFormDemo() {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

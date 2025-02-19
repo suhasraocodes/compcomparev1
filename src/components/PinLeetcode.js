@@ -18,7 +18,7 @@ export function PinLeetcode() {
   
         // Fetch user data to get LeetCode username
         const userResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_USER_API}/${userId}`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/userData/${userId}`
         );
         const leetcodeUsername = userResponse.data.leetcodeUsername;
         if (!leetcodeUsername) throw new Error("LeetCode username not found");
