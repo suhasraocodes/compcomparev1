@@ -23,13 +23,13 @@ export default function SidebarDemo() {
 
   return (
     <ProtectedRoute>
-      <div className="flex flex-col h-screen w-full">
-        <div className="flex flex-1 mt-[74px] h-[calc(100vh-64px)]  overflow-hidden">
-          <SidebarComponent open={open} setOpen={setOpen} />
-          <Dashboard />
-        </div>
+    <div className="flex flex-col h-screen w-full">
+    <div className="flex flex-1 flex-col sm:flex-row mt-16 sm:mt-[74px] h-auto sm:h-[calc(100vh-64px)] overflow-hidden">        
+        <SidebarComponent open={open} setOpen={setOpen} />
+        <Dashboard />
       </div>
-    </ProtectedRoute>
+    </div>
+  </ProtectedRoute>
   );
 }
 const Dashboard = () => {

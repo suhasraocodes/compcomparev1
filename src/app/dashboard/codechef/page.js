@@ -24,13 +24,13 @@ export default function SidebarDemo() {
 
   return (
     <ProtectedRoute>
-      <div className="flex flex-col h-screen w-full">
-        <div className="flex flex-1 mt-[74px] h-[calc(100vh-64px)] overflow-hidden">
-          <SidebarComponent open={open} setOpen={setOpen} />
-          <Dashboard />
-        </div>
+    <div className="flex flex-col h-screen w-full">
+    <div className="flex flex-1 flex-col sm:flex-row mt-16 sm:mt-[74px] h-auto sm:h-[calc(100vh-64px)] overflow-hidden">        
+        <SidebarComponent open={open} setOpen={setOpen} />
+        <Dashboard />
       </div>
-    </ProtectedRoute>
+    </div>
+  </ProtectedRoute>
   );
 }
 
@@ -71,56 +71,57 @@ const Dashboard = () => {
   return (
     <div className="flex-1 bg-gray-100 dark:bg-neutral-900 overflow-y-auto">
       {/* Background Gradient Section */}
-      <div className="relative p-10">
+      <div className="relative p-4 md:p-10">
         {/* Top Row */}
         <div className="grid grid-cols-1 gap-6 -top-6 relative z-10">
           {/* Profile Section */}
           <div className="bg-white dark:bg-neutral-800 shadow-lg rounded-xl p-6">
             <Codechefprofile />
           </div>
-
+  
           {/* Heatmap and Graph Section */}
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-6">
             {/* Heatmap Section */}
             <div className="bg-white dark:bg-neutral-800 shadow-lg rounded-xl p-6 flex-1">
-              <div className="flex justify-center items-center ml-20 mt-20 h-full">
+              <div className="flex justify-center items-center mt-10 md:mt-20 h-full">
                 {codechefUsername ? (
                   <iframe
                     src={`${process.env.NEXT_PUBLIC_CODECHEF_API}/heatmap/${codechefUsername}`}
-                    className="w-full"
-                    style={{ height: "400px", border: "none" }}
+                    className="w-full h-64 md:h-96"
+                    style={{ border: "none" }}
                     title="CodeChef Heatmap"
                   ></iframe>
                 ) : (
-              <p className="mt-[-150px]">Loading Heatmap...</p>
+                  <p className="mt-[-50px] md:mt-[-150px]">Loading Heatmap...</p>
                 )}
               </div>
             </div>
-
+  
             {/* Rating Graph Section */}
             <div className="bg-white dark:bg-neutral-800 shadow-lg rounded-xl p-6 flex-1">
-              <div className="flex justify-center items-center ml-12 mt-10 h-full">
+              <div className="flex justify-center items-center mt-10 md:mt-20 h-full">
                 {codechefUsername ? (
                   <iframe
                     src={`${process.env.NEXT_PUBLIC_CODECHEF_API}/rating/${codechefUsername}`}
-                    className="w-full"
-                    style={{ height: "600px", border: "none" }}
+                    className="w-full h-80 md:h-[600px]"
+                    style={{ border: "none" }}
                     title="CodeChef Rating"
                   ></iframe>
                 ) : (
-                  <p className="mt-[-60px]">Loading Rating Graph...</p>
+                  <p className="mt-[-30px] md:mt-[-60px]">Loading Rating Graph...</p>
                 )}
               </div>
             </div>
           </div>
         </div>
       </div>
-
+  
       {/* Lower Section */}
-      <div className="-mt-4 ml-10 mr-10 p-10 bg-gray-50 dark:bg-neutral-800 rounded-t-3xl">
+      <div className="-mt-4 mx-4 md:mx-10 p-6 md:p-10 bg-gray-50 dark:bg-neutral-800 rounded-t-3xl">
         {/* Submission Heatmap Section */}
         {codechefUsername ? <CodechefStats username={codechefUsername} /> : <p>Loading CodeChef Stats...</p>}
       </div>
     </div>
   );
+  
 };

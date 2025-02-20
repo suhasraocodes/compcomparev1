@@ -29,7 +29,7 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 shadow-lg z-10 
+      className={`fixed top-0 left-0 right-0 shadow-lg z-50 
         ${isHomePage ? "bg-transparent" : darkMode ? "bg-neutral-900" : "bg-white"}`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
