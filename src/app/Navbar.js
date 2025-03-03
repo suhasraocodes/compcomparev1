@@ -1,21 +1,24 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Moon, Sun } from "lucide-react";  
-import { Button } from "@/components/ui/button";  
+import { Moon, Sun } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "./context/AuthContext"; 
+import { useAuth } from "./context/AuthContext";
 
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { user, logout } = useAuth();
-  
+
   const isHomePage = pathname === "/";
 
   // ✅ Load dark mode state from localStorage
   const [darkMode, setDarkMode] = useState(() => {
-    return typeof window !== "undefined" && localStorage.getItem("darkMode") === "true";
+    return (
+      typeof window !== "undefined" &&
+      localStorage.getItem("darkMode") === "true"
+    );
   });
 
   useEffect(() => {
@@ -28,12 +31,16 @@ export default function Navbar() {
   }, [darkMode]);
 
   return (
-    <nav 
+    <nav
       className={`fixed top-0 left-0 right-0 shadow-lg z-50 
-        ${isHomePage ? "bg-transparent" : darkMode ? "bg-neutral-900" : "bg-white"}`}
+        ${
+          isHomePage
+            ? "bg-white dark:bg-neutral-900 lg:bg-transparent dark:lg:bg-transparent"
+            : "bg-white dark:bg-neutral-900"
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <div 
+        <div
           className="text-2xl font-bold text-gray-800 dark:text-white cursor-pointer"
           onClick={() => router.push("/")}
         >
@@ -43,7 +50,7 @@ export default function Navbar() {
         <div className="flex items-center space-x-6">
           {/* Dark Mode Toggle */}
           <button
-            onClick={() => setDarkMode(prev => !prev)}
+            onClick={() => setDarkMode((prev) => !prev)}
             className="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-yellow-500"
           >
             {darkMode ? <Sun /> : <Moon />}
